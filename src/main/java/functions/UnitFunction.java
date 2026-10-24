@@ -1,4 +1,8 @@
 package functions;
 
-public class UnitFunction {
+public class UnitFunction extends ConstantFunction {
+
+    public UnitFunction() {
+        super(1);
+    }
 }
