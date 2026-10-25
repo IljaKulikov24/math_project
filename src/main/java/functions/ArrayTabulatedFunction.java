@@ -2,7 +2,8 @@ package functions;
 
 import java.util.Arrays;
 
-public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements Insertable {
+public class ArrayTabulatedFunction extends AbstractTabulatedFunction
+        implements Insertable, Removable {
 
     private double[] xValues;
     private double[] yValues;
@@ -85,16 +86,28 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
 
     @Override
     public double getX(int index) {
+        if (index >= count || index < 0) {
+            throw new IllegalArgumentException("Неверный индекс");
+        }
+
         return xValues[index];
     }
 
     @Override
     public double getY(int index) {
+        if (index >= count || index < 0) {
+            throw new IllegalArgumentException("Неверный индекс");
+        }
+
         return yValues[index];
     }
 
     @Override
     public void setY(int index, double value) {
+        if (index >= count || index < 0) {
+            throw new IllegalArgumentException("Неверный индекс");
+        }
+
         yValues[index] = value;
     }
 
@@ -149,5 +162,17 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
         yValues[insertionIndex] = y;
 
         count++;
+    }
+
+    @Override
+    public void remove(int index) {
+        if (index >= count || index < 0) {
+            throw new IllegalArgumentException("Неверный индекс");
+        }
+
+        System.arraycopy(xValues, index + 1, xValues, index, count - index);
+        System.arraycopy(yValues, index + 1, yValues, index, count - index);
+
+        count--;
     }
 }
