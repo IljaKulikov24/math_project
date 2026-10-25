@@ -111,6 +111,10 @@ class ArrayTabulatedFunctionTest {
     @Test
     void insert() {
 
+        // Вставка существующего X
+        function1.insert(2, 67);
+        assertEquals(67, function1.getY(1));
+
         // вставка в конец
         function1.insert(10, 1111);
         assertEquals(1111, function1.getY(4));
