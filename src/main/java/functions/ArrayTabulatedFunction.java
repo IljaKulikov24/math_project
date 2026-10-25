@@ -2,16 +2,16 @@ package functions;
 
 import java.util.Arrays;
 
-public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
+public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements Insertable {
 
-    private final double[] xValues;
-    private final double[] yValues;
-    private final int count;
+    private double[] xValues;
+    private double[] yValues;
+    private int count;
 
     public ArrayTabulatedFunction(double[] xValues, double[] yValues) {
         count = xValues.length;
-        this.xValues = Arrays.copyOf(xValues, count);
-        this.yValues = Arrays.copyOf(yValues, count);
+        this.xValues = Arrays.copyOf(xValues, count + 100);
+        this.yValues = Arrays.copyOf(yValues, count + 100);
     }
 
     public ArrayTabulatedFunction(MathFunction source, double xFrom, double xTo, int count) {
@@ -23,8 +23,8 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
             xTo = temp;
         }
 
-        xValues = new double[count];
-        yValues = new double[count];
+        xValues = new double[count + 100];
+        yValues = new double[count + 100];
 
         if (xFrom == xTo) {
             for (int i = 0; i < count; i++) {
@@ -122,5 +122,27 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
     @Override
     public double rightBound() {
         return xValues[count - 1];
+    }
+
+    @Override
+    public void insert(double x, double y) {
+        int index = indexOfX(x);
+        // если X уже присутствует в функции
+        if (index != -1) {
+            setY(index, y);
+            return;
+        }
+
+        if (count == xValues.length) {
+            xValues = Arrays.copyOf(xValues, count + 100);
+            yValues = Arrays.copyOf(yValues, count + 100);
+        }
+
+        int insertionIndex = floorIndexOfX(x) + 1;
+
+        System.arraycopy(xValues, insertionIndex, xValues, insertionIndex + 1, count - insertionIndex);
+        System.arraycopy(yValues, insertionIndex, yValues, insertionIndex + 1, count - insertionIndex);
+
+        count++;
     }
 }
