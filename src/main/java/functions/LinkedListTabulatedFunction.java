@@ -1,11 +1,12 @@
 package functions;
 
-public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements Insertable {
+public class LinkedListTabulatedFunction extends AbstractTabulatedFunction
+        implements Insertable, Removable {
 
     private int count;
     private Node head;
 
-    public class Node {
+    public static class Node {
         Node next;
         Node prev;
         double x;
@@ -118,6 +119,10 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
     }
 
     private Node getNode(int index) {
+        if (index >= count || index < 0) {
+            throw new IllegalArgumentException("Неверный индекс");
+        }
+
         int i;
         Node current;
         if (index < count / 2) {
@@ -141,16 +146,28 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
 
     @Override
     public double getX(int index) {
+        if (index >= count || index < 0) {
+            throw new IllegalArgumentException("Неверный индекс");
+        }
+
         return getNode(index).x;
     }
 
     @Override
     public double getY(int index) {
+        if (index >= count || index < 0) {
+            throw new IllegalArgumentException("Неверный индекс");
+        }
+
         return getNode(index).y;
     }
 
     @Override
     public void setY(int index, double value) {
+        if (index >= count || index < 0) {
+            throw new IllegalArgumentException("Неверный индекс");
+        }
+
         getNode(index).y = value;
     }
 
@@ -221,5 +238,28 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
 
             count++;
         }
+    }
+
+    @Override
+    public void remove(int index) {
+        if (index >= count || index < 0) {
+            throw new IllegalArgumentException("Неверный индекс");
+        }
+
+        if (count == 1) {
+            head = null;
+            count--;
+            return;
+        }
+
+        Node node = getNode(index), next = node.next, prev = node.prev;
+        prev.next = next;
+        next.prev = prev;
+
+        if (index == 0) {
+            head = next;
+        }
+
+        count--;
     }
 }

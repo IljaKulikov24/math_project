@@ -128,4 +128,25 @@ class LinkedListTabulatedFunctionTest {
         function1.insert(0, 3333);
         assertEquals(3333, function1.getY(0));
     }
+
+    @Test
+    void remove() {
+
+        // xVal = {1.0, 2.0, 3.0, 4.0}
+        // yVal = {1.0, 4.0, 9.0, 16.0}
+
+        LinkedListTabulatedFunction function = new LinkedListTabulatedFunction(xVal, yVal);
+
+        function.remove(1);
+        assertEquals(9, function.getY(1));
+
+        function.remove(0);
+        assertEquals(9, function.getY(0));
+
+        function.remove(0);
+        assertEquals(16, function.getY(0));
+
+        function.remove(0);
+        assertEquals(0, function.getCount());
+    }
 }
