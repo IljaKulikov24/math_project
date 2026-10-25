@@ -138,10 +138,15 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
             yValues = Arrays.copyOf(yValues, count + 100);
         }
 
-        int insertionIndex = floorIndexOfX(x) + 1;
+        int insertionIndex = floorIndexOfX(x);
+        if (insertionIndex != 0 && insertionIndex != count) {
+            insertionIndex++;
+        }
 
         System.arraycopy(xValues, insertionIndex, xValues, insertionIndex + 1, count - insertionIndex);
         System.arraycopy(yValues, insertionIndex, yValues, insertionIndex + 1, count - insertionIndex);
+        xValues[insertionIndex] = x;
+        yValues[insertionIndex] = y;
 
         count++;
     }

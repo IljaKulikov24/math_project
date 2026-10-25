@@ -107,4 +107,20 @@ class ArrayTabulatedFunctionTest {
     void rightBound() {
         assertEquals(4, function1.rightBound());
     }
+
+    @Test
+    void insert() {
+
+        // вставка в конец
+        function1.insert(10, 1111);
+        assertEquals(1111, function1.getY(4));
+
+        // вствка в середину
+        function1.insert(2.5, 2222);
+        assertEquals(2222, function1.getY(2));
+
+        // вставка в начало
+        function1.insert(0, 3333);
+        assertEquals(3333, function1.getY(0));
+    }
 }
