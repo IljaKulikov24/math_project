@@ -222,12 +222,4 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
             count++;
         }
     }
-
-    public void print() {
-        Node current = head;
-        for (int i = 0; i < count; i++) {
-            System.out.println(current.x + " " + current.y);
-            current = current.next;
-        }
-    }
 }
