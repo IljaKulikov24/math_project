@@ -59,6 +59,28 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
     }
 
     @Override
+    public double apply(double x) {
+        if (x < leftBound()) return extrapolateLeft(x);
+        if (x > rightBound()) return extrapolateRight(x);
+
+        Node node = floorNodeOfX(x);
+        if (node.next.x == x) return node.next.y;
+
+        return interpolate(x, node.x, node.next.x, node.y, node.next.y);
+    }
+
+    protected Node floorNodeOfX(double x) {
+        if (x < leftBound()) return head;
+        if (x > rightBound()) return head.prev;
+
+        Node current = head.next;
+        while (current.x < x) {
+            current = current.next;
+        }
+        return current.prev;
+    }
+
+    @Override
     protected int floorIndexOfX(double x) {
         if (x < leftBound()) return 0;
         if (x > rightBound()) return count;

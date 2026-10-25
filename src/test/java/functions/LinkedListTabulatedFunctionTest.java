@@ -97,4 +97,15 @@ class LinkedListTabulatedFunctionTest {
     void rightBound() {
         assertEquals(4, function1.rightBound());
     }
+
+    @Test
+    void apply() {
+        assertEquals(16, function1.apply(4));
+
+        double x = 3.5;
+        assertEquals(
+                function1.interpolate(x, function1.floorIndexOfX(x)),
+                function1.apply(x)
+        );
+    }
 }
