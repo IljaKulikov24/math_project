@@ -1,6 +1,6 @@
 package functions;
 
-public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
+public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements Insertable {
 
     private int count;
     private Node head;
@@ -186,5 +186,48 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
     @Override
     public double rightBound() {
         return head.prev.x;
+    }
+
+    @Override
+    public void insert(double x, double y) {
+        // Вставка при путом списке
+        if (count == 0) {
+            addNode(x, y);
+            return;
+        }
+
+        Node node = floorNodeOfX(x);
+        // Вставка при уже существующем X
+        if (node.next.x == x) {
+            node.next.y = y;
+            return;
+        }
+        // Вставка в начало
+        if (node == head) {
+            addNode(x, y);
+            head = head.prev;
+        }
+        // Вставка в конец
+        else if (node == head.prev) {
+            addNode(x, y);
+        }
+        // Вставка в середину
+        else {
+            Node insertNode = new Node(x, y);
+            Node next = node.next;
+            node.next = insertNode;
+            insertNode.next = next;
+            insertNode.prev = node;
+
+            count++;
+        }
+    }
+
+    public void print() {
+        Node current = head;
+        for (int i = 0; i < count; i++) {
+            System.out.println(current.x + " " + current.y);
+            current = current.next;
+        }
     }
 }

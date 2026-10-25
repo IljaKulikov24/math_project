@@ -108,4 +108,24 @@ class LinkedListTabulatedFunctionTest {
                 function1.apply(x)
         );
     }
+
+    @Test
+    void insert() {
+
+        // Вставка существующего X
+        function1.insert(2, 67);
+        assertEquals(67, function1.getY(1));
+
+        // Вставка в конец
+        function1.insert(10, 1111);
+        assertEquals(1111, function1.getY(4));
+
+        // вствка в середину
+        function1.insert(2.5, 2222);
+        assertEquals(2222, function1.getY(2));
+
+        // вставка в начало
+        function1.insert(0, 3333);
+        assertEquals(3333, function1.getY(0));
+    }
 }
