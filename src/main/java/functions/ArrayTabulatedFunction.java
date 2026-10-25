@@ -33,7 +33,7 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
             }
         } else {
             xValues[0] = xFrom;
-            yValues[9] = source.apply(xFrom);
+            yValues[0] = source.apply(xFrom);
             xValues[count - 1] = xTo;
             yValues[count - 1] = source.apply(xTo);
 
@@ -52,8 +52,8 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
         if (x > rightBound()) return count;
         
         int floorIndex = 0;
-        for (int i = 1; i < count - 1; i++) {
-            if (x > xValues[i]) {
+        for (int i = 1; i < count; i++) {
+            if (x < xValues[i]) {
                 floorIndex = i - 1;
                 break;
             }

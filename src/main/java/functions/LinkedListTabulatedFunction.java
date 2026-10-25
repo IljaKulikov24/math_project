@@ -63,13 +63,13 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
         if (x < leftBound()) return 0;
         if (x > rightBound()) return count;
 
-        int index = 1;
+        int floorIndex = 0;
         Node current = head;
         while (current.x < x) {
-            index++;
+            floorIndex++;
             current = current.next;
         }
-        return --index;
+        return --floorIndex;
     }
 
     @Override
@@ -136,7 +136,7 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
     public int indexOfX(double x) {
         Node current = head;
         int index = 0;
-        while (current != null) {
+        while (index < count) {
             if (current.x == x) return index;
             current = current.next;
             index++;
@@ -148,7 +148,7 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
     public int indexOfY(double y) {
         Node current = head;
         int index = 0;
-        while (current != null) {
+        while (index < count) {
             if (current.y == y) return index;
             current = current.next;
             index++;
