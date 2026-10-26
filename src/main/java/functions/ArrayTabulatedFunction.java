@@ -10,12 +10,19 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction
     private int count;
 
     public ArrayTabulatedFunction(double[] xValues, double[] yValues) {
+        if (xValues.length != yValues.length) {
+            throw new IllegalArgumentException("Разное количество значений у X и Y");
+        }
+        if (xValues.length < 2) throw new IllegalArgumentException("Недопустим размер таблицы меньше 2");
+
         count = xValues.length;
         this.xValues = Arrays.copyOf(xValues, count + 100);
         this.yValues = Arrays.copyOf(yValues, count + 100);
     }
 
     public ArrayTabulatedFunction(MathFunction source, double xFrom, double xTo, int count) {
+        if (count < 2) throw new IllegalArgumentException("Недопустим размер таблицы меньше 2");
+
         this.count = count;
 
         if (xFrom > xTo) {
@@ -74,7 +81,6 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction
 
     @Override
     protected double interpolate(double x, int floorIndex) {
-        if (count == 1) return x;
         return interpolate(x, xValues[floorIndex], xValues[floorIndex + 1],
                 yValues[floorIndex], yValues[floorIndex + 1]);
     }
@@ -168,6 +174,9 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction
     public void remove(int index) {
         if (index >= count || index < 0) {
             throw new IllegalArgumentException("Неверный индекс");
+        }
+        if (count == 2) {
+            throw new IllegalArgumentException("Удаление невозможно, в таблице не может находится меньше 2 точек");
         }
 
         System.arraycopy(xValues, index + 1, xValues, index, count - index);

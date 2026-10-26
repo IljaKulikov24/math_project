@@ -35,12 +35,23 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction
     }
 
     public LinkedListTabulatedFunction(double[] xValues, double[] yValues) {
+        if (xValues.length != yValues.length) {
+            throw new IllegalArgumentException("Разное количество значений у X и Y");
+        }
+        if (xValues.length < 2) {
+            throw new IllegalArgumentException("Недопустим размер таблицы меньше 2");
+        }
+
         for (int i = 0; i < xValues.length; i++) {
             addNode(xValues[i], yValues[i]);
         }
     }
 
     public LinkedListTabulatedFunction(MathFunction source, double xFrom, double xTo, int count) {
+        if (count < 2) {
+            throw new IllegalArgumentException("Недопустим размер таблицы меньше 2");
+        }
+
         addNode(xFrom, source.apply(xFrom));
 
         if (xFrom == xTo) {
@@ -107,8 +118,6 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction
 
     @Override
     protected double interpolate(double x, int floorIndex) {
-        if (count == 1) return x;
-
         return interpolate(x, getX(floorIndex), getX(floorIndex + 1),
                 getY(floorIndex), getY(floorIndex + 1));
     }
@@ -244,6 +253,9 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction
     public void remove(int index) {
         if (index >= count || index < 0) {
             throw new IllegalArgumentException("Неверный индекс");
+        }
+        if (count == 2) {
+            throw new IllegalArgumentException("Удаление невозможно, в таблице не может находится меньше 2 точек");
         }
 
         if (count == 1) {
