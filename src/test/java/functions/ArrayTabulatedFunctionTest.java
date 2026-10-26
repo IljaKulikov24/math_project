@@ -1,5 +1,7 @@
 package functions;
 
+import exceptions.ArrayIsNotSortedException;
+import exceptions.DifferentLengthOfArraysException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -35,8 +37,11 @@ class ArrayTabulatedFunctionTest {
             new ArrayTabulatedFunction(new double[] {1.0}, new double[] {2.0});
         });
 
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(DifferentLengthOfArraysException.class, () -> {
             new ArrayTabulatedFunction(new double[] {1.0, 2.0}, new double[] {2.0});
+        });
+        assertThrows(ArrayIsNotSortedException.class, () -> {
+            new ArrayTabulatedFunction(new double[] {2.0, 1.0}, new double[] {0.0, 0.0});
         });
 
 

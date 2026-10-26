@@ -35,9 +35,11 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction
     }
 
     public LinkedListTabulatedFunction(double[] xValues, double[] yValues) {
-        if (xValues.length != yValues.length) {
-            throw new IllegalArgumentException("Разное количество значений у X и Y");
-        }
+
+        checkLengthIsTheSame(xValues, yValues);
+
+        checkSorted(xValues);
+
         if (xValues.length < 2) {
             throw new IllegalArgumentException("Недопустим размер таблицы меньше 2");
         }
@@ -118,6 +120,7 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction
 
     @Override
     protected double interpolate(double x, int floorIndex) {
+
         return interpolate(x, getX(floorIndex), getX(floorIndex + 1),
                 getY(floorIndex), getY(floorIndex + 1));
     }

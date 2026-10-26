@@ -10,9 +10,10 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction
     private int count;
 
     public ArrayTabulatedFunction(double[] xValues, double[] yValues) {
-        if (xValues.length != yValues.length) {
-            throw new IllegalArgumentException("Разное количество значений у X и Y");
-        }
+        checkLengthIsTheSame(xValues, yValues);
+
+        checkSorted(xValues);
+
         if (xValues.length < 2) throw new IllegalArgumentException("Недопустим размер таблицы меньше 2");
 
         count = xValues.length;
