@@ -1,5 +1,7 @@
 package functions;
 
+import exceptions.InterpolationException;
+
 public class LinkedListTabulatedFunction extends AbstractTabulatedFunction
         implements Insertable, Removable {
 
@@ -110,19 +112,22 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction
 
     @Override
     protected double extrapolateLeft(double x) {
-        return interpolate(x, 0);
+        return interpolate(x, head.x, head.next.x, head.y, head.next.y);
     }
 
     @Override
     protected double extrapolateRight(double x) {
-        return interpolate(x, count - 2);
+        return interpolate(x, head.prev.prev.x, head.prev.x, head.prev.prev.y, head.prev.y);
     }
 
     @Override
     protected double interpolate(double x, int floorIndex) {
+        Node node = getNode(floorIndex);
+        if (x < node.x || x > node.next.x) {
+            throw new InterpolationException();
+        }
 
-        return interpolate(x, getX(floorIndex), getX(floorIndex + 1),
-                getY(floorIndex), getY(floorIndex + 1));
+        return interpolate(x, node.x, node.next.x, node.y, node.next.y);
     }
 
     @Override

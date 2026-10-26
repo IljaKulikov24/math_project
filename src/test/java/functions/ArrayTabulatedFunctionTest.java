@@ -2,6 +2,7 @@ package functions;
 
 import exceptions.ArrayIsNotSortedException;
 import exceptions.DifferentLengthOfArraysException;
+import exceptions.InterpolationException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -87,6 +88,16 @@ class ArrayTabulatedFunctionTest {
         double interpolateValue = function1.interpolate(x, function1.floorIndexOfX(x));
 
         assertEquals(result, interpolateValue);
+
+        // Если индекс присутствует в таблице, но не подходит для интерполяции
+        assertThrows(InterpolationException.class, () -> {
+            function1.interpolate(2.5, 3);
+        });
+
+        // Если индекса в таблице нет
+        assertThrows(IllegalArgumentException.class, () -> {
+            function1.interpolate(2.5, 100);
+        });
     }
 
     @Test

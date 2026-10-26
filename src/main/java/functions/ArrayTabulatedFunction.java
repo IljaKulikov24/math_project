@@ -1,5 +1,7 @@
 package functions;
 
+import exceptions.InterpolationException;
+
 import java.util.Arrays;
 
 public class ArrayTabulatedFunction extends AbstractTabulatedFunction
@@ -72,16 +74,21 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction
 
     @Override
     protected double extrapolateLeft(double x) {
-        return interpolate(x, 0);
+        return interpolate(x, getX(0), getX(1), getY(0), getY(1));
     }
 
     @Override
     protected double extrapolateRight(double x) {
-        return interpolate(x, count - 2);
+        return interpolate(x, getX(count - 2), getX(count - 1),
+                getY(count - 2), getY(count - 1));
     }
 
     @Override
     protected double interpolate(double x, int floorIndex) {
+        if (x < getX(floorIndex) || x > getX(floorIndex + 1)) {
+            throw new InterpolationException();
+        }
+
         return interpolate(x, xValues[floorIndex], xValues[floorIndex + 1],
                 yValues[floorIndex], yValues[floorIndex + 1]);
     }
