@@ -21,6 +21,22 @@ class LinkedListTabulatedFunctionTest {
             assertEquals(function1.getX(i), function2.getX(i));
             assertEquals(function1.getY(i), function2.getY(i));
         }
+
+
+        // Тест первого конструктора
+        assertThrows(IllegalArgumentException.class, () -> {
+            new LinkedListTabulatedFunction(new double[] {1.0}, new double[] {2.0});
+        });
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            new LinkedListTabulatedFunction(new double[] {1.0, 2.0}, new double[] {2.0});
+        });
+
+
+        // Тест второго конструктора
+        assertThrows(IllegalArgumentException.class, () -> {
+            new LinkedListTabulatedFunction(new SqrFunction(), 0, 10, 1);
+        });
     }
 
     @Test
@@ -143,10 +159,10 @@ class LinkedListTabulatedFunctionTest {
         function.remove(0);
         assertEquals(9, function.getY(0));
 
-        function.remove(0);
-        assertEquals(16, function.getY(0));
-
-        function.remove(0);
-        assertEquals(0, function.getCount());
+        assertThrows(IllegalArgumentException.class, () -> {
+            LinkedListTabulatedFunction func = new LinkedListTabulatedFunction(
+                    new double[]{1.0, 2.0}, new double[]{10.0, 20.0});
+            func.remove(0);
+        });
     }
 }

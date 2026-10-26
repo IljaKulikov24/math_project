@@ -29,6 +29,21 @@ class ArrayTabulatedFunctionTest {
             assertEquals(4, f.getX(i));
             assertEquals(16, f.getY(i));
         }
+
+        // Тест первого конструктора
+        assertThrows(IllegalArgumentException.class, () -> {
+            new ArrayTabulatedFunction(new double[] {1.0}, new double[] {2.0});
+        });
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            new ArrayTabulatedFunction(new double[] {1.0, 2.0}, new double[] {2.0});
+        });
+
+
+        // Тест второго конструктора
+        assertThrows(IllegalArgumentException.class, () -> {
+            new ArrayTabulatedFunction(new SqrFunction(), 0, 10, 1);
+        });
     }
 
     @Test
@@ -142,10 +157,10 @@ class ArrayTabulatedFunctionTest {
         function.remove(0);
         assertEquals(9, function.getY(0));
 
-        function.remove(0);
-        assertEquals(16, function.getY(0));
-
-        function.remove(0);
-        assertEquals(0, function.getCount());
+        assertThrows(IllegalArgumentException.class, () -> {
+            ArrayTabulatedFunction func = new ArrayTabulatedFunction(
+                    new double[]{1.0, 2.0}, new double[]{10.0, 20.0});
+            func.remove(0);
+        });
     }
 }
