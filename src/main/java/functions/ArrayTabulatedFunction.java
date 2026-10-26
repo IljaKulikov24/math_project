@@ -1,10 +1,14 @@
 package functions;
 
 import exceptions.InterpolationException;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
-public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements Insertable, Removable {
+public class ArrayTabulatedFunction extends AbstractTabulatedFunction
+        implements Insertable, Removable {
 
     private double[] xValues;
     private double[] yValues;
@@ -189,5 +193,24 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
         System.arraycopy(yValues, index + 1, yValues, index, count - index);
 
         count--;
+    }
+
+    @NotNull
+    @Override
+    public Iterator<Point> iterator() {
+        return new Iterator<Point>() {
+            int index = 0;
+
+            @Override
+            public boolean hasNext() {
+                return index < count;
+            }
+
+            @Override
+            public Point next() {
+                if (!hasNext()) throw new NoSuchElementException();
+                return new Point(xValues[index], yValues[index++]);
+            }
+        };
     }
 }

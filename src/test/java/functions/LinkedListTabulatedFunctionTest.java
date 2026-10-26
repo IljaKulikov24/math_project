@@ -5,6 +5,8 @@ import exceptions.DifferentLengthOfArraysException;
 import exceptions.InterpolationException;
 import org.junit.jupiter.api.Test;
 
+import java.util.Iterator;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class LinkedListTabulatedFunctionTest {
@@ -179,5 +181,24 @@ class LinkedListTabulatedFunctionTest {
                     new double[]{1.0, 2.0}, new double[]{10.0, 20.0});
             func.remove(0);
         });
+    }
+
+    @Test
+    void iterator() {
+        int index = 0;
+        for (Point point : function1) {
+            assertEquals(function1.getX(index), point.x);
+            assertEquals(function1.getY(index), point.y);
+            index++;
+        }
+
+        index = 0;
+        Iterator<Point> iterator = function1.iterator();
+        while (iterator.hasNext()) {
+            Point point =iterator.next();
+            assertEquals(function1.getX(index), point.x);
+            assertEquals(function1.getY(index), point.y);
+            index++;
+        }
     }
 }

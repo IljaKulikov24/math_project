@@ -1,6 +1,10 @@
 package functions;
 
 import exceptions.InterpolationException;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class LinkedListTabulatedFunction extends AbstractTabulatedFunction
         implements Insertable, Removable {
@@ -278,5 +282,27 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction
         }
 
         count--;
+    }
+
+    @NotNull
+    @Override
+    public Iterator<Point> iterator() {
+        return new Iterator<Point>() {
+            Node node = head;
+            int index = 0;
+
+            @Override
+            public boolean hasNext() {
+                return index < count;
+            }
+
+            @Override
+            public Point next() {
+                if (!hasNext()) throw new NoSuchElementException();
+                index++;
+                node = node.next;
+                return new Point(node.prev.x, node.prev.y);
+            }
+        };
     }
 }
