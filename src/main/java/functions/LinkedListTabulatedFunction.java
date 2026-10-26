@@ -25,8 +25,7 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction
             head = new Node(x, y);
             head.next = head;
             head.prev = head;
-        }
-        else {
+        } else {
             Node newNode = new Node(x, y);
             newNode.next = head;
             newNode.prev = head.prev;
@@ -62,8 +61,7 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction
             for (int i = 1; i < count - 1; i++) {
                 addNode(xFrom, source.apply(xFrom));
             }
-        }
-        else {
+        } else {
             double step = (xTo - xFrom) / (count - 1);
             for (int i = 1; i < count - 1; i++) {
                 double value = xFrom + step * i;
@@ -149,8 +147,7 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction
                 current = current.next;
                 i++;
             }
-        }
-        else {
+        } else {
             i = count - 1;
             current = head.prev;
             while (i > index) {

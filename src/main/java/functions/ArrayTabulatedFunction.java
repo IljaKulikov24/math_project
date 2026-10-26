@@ -4,16 +4,15 @@ import exceptions.InterpolationException;
 
 import java.util.Arrays;
 
-public class ArrayTabulatedFunction extends AbstractTabulatedFunction
-        implements Insertable, Removable {
+public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements Insertable, Removable {
 
     private double[] xValues;
     private double[] yValues;
     private int count;
 
     public ArrayTabulatedFunction(double[] xValues, double[] yValues) {
-        checkLengthIsTheSame(xValues, yValues);
 
+        checkLengthIsTheSame(xValues, yValues);
         checkSorted(xValues);
 
         if (xValues.length < 2) throw new IllegalArgumentException("Недопустим размер таблицы меньше 2");
@@ -24,6 +23,7 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction
     }
 
     public ArrayTabulatedFunction(MathFunction source, double xFrom, double xTo, int count) {
+
         if (count < 2) throw new IllegalArgumentException("Недопустим размер таблицы меньше 2");
 
         this.count = count;
@@ -61,7 +61,7 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction
     protected int floorIndexOfX(double x) {
         if (x < leftBound()) return 0;
         if (x > rightBound()) return count;
-        
+
         int floorIndex = 0;
         for (int i = 1; i < count; i++) {
             if (x < xValues[i]) {
@@ -79,8 +79,7 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction
 
     @Override
     protected double extrapolateRight(double x) {
-        return interpolate(x, getX(count - 2), getX(count - 1),
-                getY(count - 2), getY(count - 1));
+        return interpolate(x, getX(count - 2), getX(count - 1), getY(count - 2), getY(count - 1));
     }
 
     @Override
@@ -89,8 +88,7 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction
             throw new InterpolationException();
         }
 
-        return interpolate(x, xValues[floorIndex], xValues[floorIndex + 1],
-                yValues[floorIndex], yValues[floorIndex + 1]);
+        return interpolate(x, xValues[floorIndex], xValues[floorIndex + 1], yValues[floorIndex], yValues[floorIndex + 1]);
     }
 
     @Override
