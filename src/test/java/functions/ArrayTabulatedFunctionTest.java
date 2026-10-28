@@ -186,8 +186,8 @@ class ArrayTabulatedFunctionTest {
     void iterator() {
         int index = 0;
         for (Point point : function1) {
-            assertEquals(function1.getX(index), point.x);
-            assertEquals(function1.getY(index), point.y);
+            assertEquals(function1.getX(index), point.getX());
+            assertEquals(function1.getY(index), point.getY());
             index++;
         }
 
@@ -195,8 +195,8 @@ class ArrayTabulatedFunctionTest {
         Iterator<Point> iterator = function1.iterator();
         while (iterator.hasNext()) {
             Point point =iterator.next();
-            assertEquals(function1.getX(index), point.x);
-            assertEquals(function1.getY(index), point.y);
+            assertEquals(function1.getX(index), point.getX());
+            assertEquals(function1.getY(index), point.getY());
             index++;
         }
     }

@@ -25,15 +25,15 @@ class TabulatedDifferentialOperatorTest {
             while (iteratorFunction.hasNext() && iteratorDerivative.hasNext()) {
                 Point functionPoint = iteratorFunction.next(), derivativePoint = iteratorDerivative.next();
 
-                assertEquals(functionPoint.x, derivativePoint.x);
+                assertEquals(functionPoint.getX(), derivativePoint.getX());
 
-                double x = functionPoint.x, y = functionPoint.y;
+                double x = functionPoint.getX(), y = functionPoint.getY();
                 if (iteratorDerivative.hasNext()) {
                     double xRight = x + 1, yRight = function.apply(xRight);
-                    assertEquals((yRight - y) / (xRight - x), derivativePoint.y);
+                    assertEquals((yRight - y) / (xRight - x), derivativePoint.getY());
                 } else {
                     double xLeft = x - 1, yLeft = function.apply(xLeft);
-                    assertEquals((y - yLeft) / (x - xLeft), derivativePoint.y);
+                    assertEquals((y - yLeft) / (x - xLeft), derivativePoint.getY());
                 }
             }
             // Проверка на то какая фабрика использовалась
@@ -49,15 +49,15 @@ class TabulatedDifferentialOperatorTest {
             while (iteratorFunction.hasNext() && iteratorDerivative.hasNext()) {
                 Point functionPoint = iteratorFunction.next(), derivativePoint = iteratorDerivative.next();
 
-                assertEquals(functionPoint.x, derivativePoint.x);
+                assertEquals(functionPoint.getX(), derivativePoint.getX());
 
-                double x = functionPoint.x, y = functionPoint.y;
+                double x = functionPoint.getX(), y = functionPoint.getY();
                 if (iteratorFunction.hasNext()) {
                     double xRight = x + 1, yRight = tabulatedFunction.apply(xRight);
-                    assertEquals((yRight - y) / (xRight - x), derivativePoint.y);
+                    assertEquals((yRight - y) / (xRight - x), derivativePoint.getY());
                 } else {
                     double xLeft = x - 1, yLeft = tabulatedFunction.apply(xLeft);
-                    assertEquals((y - yLeft) / (x - xLeft), derivativePoint.y);
+                    assertEquals((y - yLeft) / (x - xLeft), derivativePoint.getY());
                 }
             }
             // Проверка на то какая фабрика использовалась

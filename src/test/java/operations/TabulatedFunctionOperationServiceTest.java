@@ -18,8 +18,8 @@ class TabulatedFunctionOperationServiceTest {
 
         int index = 0;
         for (Point point : points) {
-            assertEquals(function.getX(index), point.x);
-            assertEquals(function.getY(index), point.y);
+            assertEquals(function.getX(index), point.getX());
+            assertEquals(function.getY(index), point.getY());
             index++;
         }
     }
