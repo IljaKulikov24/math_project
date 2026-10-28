@@ -3,7 +3,6 @@ package operations;
 import functions.*;
 import functions.factory.ArrayTabulatedFunctionFactory;
 import functions.factory.LinkedListTabulatedFunctionFactory;
-import functions.factory.TabulatedFunctionFactory;
 
 import org.junit.jupiter.api.Test;
 
@@ -16,31 +15,53 @@ class TabulatedDifferentialOperatorTest {
     // Тестим производную
     @Test
     void derive() {
-        // f(x) = x^2
-        MathFunction function = new SqrFunction();
-        TabulatedFunction tabulatedFunction = new ArrayTabulatedFunction(function, 1, 5, 5);
 
-        TabulatedFunctionFactory arrayFactory = new ArrayTabulatedFunctionFactory();
-        TabulatedFunctionFactory listFactory = new LinkedListTabulatedFunctionFactory();
+        { // Проверка вычисления производной с помощью фабрики ArrayTabulatedFunctionFactory
+            MathFunction function = new SqrFunction();
+            TabulatedFunction tabulatedFunction = new LinkedListTabulatedFunction(function, 1, 5, 5);
+            TabulatedFunction derivative = new TabulatedDifferentialOperator().derive(tabulatedFunction);
 
-        // f`(x) = 2x
-        TabulatedFunction derivative = new TabulatedDifferentialOperator(arrayFactory).derive(tabulatedFunction);
+            Iterator<Point> iteratorFunction = tabulatedFunction.iterator(), iteratorDerivative = derivative.iterator();
+            while (iteratorFunction.hasNext() && iteratorDerivative.hasNext()) {
+                Point functionPoint = iteratorFunction.next(), derivativePoint = iteratorDerivative.next();
 
-        Iterator<Point> iteratorFunction = tabulatedFunction.iterator(), iteratorDerivative = derivative.iterator();
+                assertEquals(functionPoint.x, derivativePoint.x);
 
-        while (iteratorFunction.hasNext() && iteratorDerivative.hasNext()) {
-            Point functionPoint = iteratorFunction.next(), derivativePoint = iteratorDerivative.next();
-            assertEquals(functionPoint.x, derivativePoint.x);
-
-            double x = functionPoint.x, y = functionPoint.y;
-            if (iteratorDerivative.hasNext()) {
-                double xRight = x + 1, yRight = function.apply(xRight);
-                assertEquals((yRight - y) / (xRight - x), derivativePoint.y);
+                double x = functionPoint.x, y = functionPoint.y;
+                if (iteratorDerivative.hasNext()) {
+                    double xRight = x + 1, yRight = function.apply(xRight);
+                    assertEquals((yRight - y) / (xRight - x), derivativePoint.y);
+                } else {
+                    double xLeft = x - 1, yLeft = function.apply(xLeft);
+                    assertEquals((y - yLeft) / (x - xLeft), derivativePoint.y);
+                }
             }
-            else {
-                double xLeft = x - 1, yLeft = function.apply(xLeft);
-                assertEquals((y - yLeft) / (x - xLeft), derivativePoint.y);
+            // Проверка на то какая фабрика использовалась
+            assertEquals(ArrayTabulatedFunction.class, derivative.getClass());
+        }
+        { // Проверка вычисления производной с помощью фабрики LinkedListTabulatedFunctionFactory
+            MathFunction function = new HyperFunction();
+            TabulatedFunction tabulatedFunction = new ArrayTabulatedFunction(function, 1, 5, 5);
+            TabulatedFunction derivative = new TabulatedDifferentialOperator(new LinkedListTabulatedFunctionFactory())
+                    .derive(tabulatedFunction);
+
+            Iterator<Point> iteratorFunction = tabulatedFunction.iterator(), iteratorDerivative = derivative.iterator();
+            while (iteratorFunction.hasNext() && iteratorDerivative.hasNext()) {
+                Point functionPoint = iteratorFunction.next(), derivativePoint = iteratorDerivative.next();
+
+                assertEquals(functionPoint.x, derivativePoint.x);
+
+                double x = functionPoint.x, y = functionPoint.y;
+                if (iteratorFunction.hasNext()) {
+                    double xRight = x + 1, yRight = tabulatedFunction.apply(xRight);
+                    assertEquals((yRight - y) / (xRight - x), derivativePoint.y);
+                } else {
+                    double xLeft = x - 1, yLeft = tabulatedFunction.apply(xLeft);
+                    assertEquals((y - yLeft) / (x - xLeft), derivativePoint.y);
+                }
             }
+            // Проверка на то какая фабрика использовалась
+            assertEquals(LinkedListTabulatedFunction.class, derivative.getClass());
         }
     }
 
