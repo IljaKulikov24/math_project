@@ -48,7 +48,7 @@ public class TabulatedFunctionOperationService {
                 throw new InconsistentFunctionsException("Точки функций имеют разние x-координаты");
             }
             xValues[i] = aFunctionPoints[i].getX();
-            yValues[i] = operation.apply(aFunctionPoints[i].getX(), bFunctionPoints[i].getX());
+            yValues[i] = operation.apply(aFunctionPoints[i].getY(), bFunctionPoints[i].getY());
         }
 
         return factory.create(xValues, yValues);
