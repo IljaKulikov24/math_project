@@ -83,7 +83,7 @@ class TabulatedFunctionOperationServiceTest {
         );
         // Разное количество точек
         assertThrows(InconsistentFunctionsException.class, () -> service.division(
-                firstFunction, new ArrayTabulatedFunction(new UnitFunction(), 0, 1, 1))
+                firstFunction, new ArrayTabulatedFunction(new UnitFunction(), 0, 1, 2))
         );
     }
 }
