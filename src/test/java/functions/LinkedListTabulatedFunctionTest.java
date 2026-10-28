@@ -201,4 +201,14 @@ class LinkedListTabulatedFunctionTest {
             index++;
         }
     }
+
+    @Test
+    void insertMiddleAndReadFromEnd() {
+        LinkedListTabulatedFunction list = new LinkedListTabulatedFunction(new double[]{1.0, 2.0, 3.0, 4.0}, new double[]{10, 20, 30, 40});
+        list.insert(2.5, 999);
+
+        System.out.println(list);
+
+        assertEquals(3.0, list.getX(3));
+    }
 }
