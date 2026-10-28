@@ -67,7 +67,12 @@ public class TabulatedFunctionOperationService {
     }
 
     public TabulatedFunction division(TabulatedFunction a, TabulatedFunction b) {
-        return doOperation(a, b, (yOne, yTwo) -> yOne / yTwo);
+        return doOperation(a, b, (yOne, yTwo) -> {
+            if (yTwo == 0) {
+                throw new ArithmeticException("Деление на 0 :(");
+            }
+            return yOne / yTwo;
+        });
     }
 
     public TabulatedFunctionFactory getFactory() {
