@@ -2,8 +2,11 @@ package functions;
 
 import exceptions.ArrayIsNotSortedException;
 import exceptions.DifferentLengthOfArraysException;
+import org.jetbrains.annotations.NotNull;
 
-public abstract class AbstractTabulatedFunction implements TabulatedFunction {
+import java.util.Iterator;
+
+public abstract class AbstractTabulatedFunction implements TabulatedFunction{
 
     protected abstract int floorIndexOfX(double x);
 
@@ -41,5 +44,17 @@ public abstract class AbstractTabulatedFunction implements TabulatedFunction {
                 throw new ArrayIsNotSortedException();
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder s = new StringBuilder();
+
+        s.append(this.getClass().getSimpleName()).append(" size = ").append(getCount()).append('\n');
+        for (Point point : this) {
+            s.append("[").append(point.getX()).append("; ").append(point.getY()).append("]\n");
+        }
+
+        return s.toString();
     }
 }

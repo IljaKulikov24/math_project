@@ -7,17 +7,26 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AbstractTabulatedFunctionTest {
 
-    AbstractTabulatedFunction mockFunction =
-            Mockito.mock(AbstractTabulatedFunction.class);
+//    AbstractTabulatedFunction mockFunction =
+//            Mockito.mock(AbstractTabulatedFunction.class);
 
     @Test
     void interpolate() {
-        Mockito.when(mockFunction.apply(100)).thenReturn(100.0);
-        assertEquals(100, mockFunction.apply(100));
+        // Потом
     }
 
     @Test
     void apply() {
+        // Потом
+    }
 
+    @Test
+    void outputWithToString() {
+
+        double[] xVal = {67, 69};
+        double[] yVal = {69, 67};
+
+        System.out.println(new ArrayTabulatedFunction(xVal, yVal));
+        System.out.println(new LinkedListTabulatedFunction(xVal, yVal));
     }
 }
