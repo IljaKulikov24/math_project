@@ -3,12 +3,17 @@ package functions;
 import exceptions.InterpolationException;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class ArrayTabulatedFunction extends AbstractTabulatedFunction
-        implements Insertable, Removable {
+        implements Insertable, Removable, Serializable{
+
+    @Serial
+    private static final long serialVersionUID = 8662227868331173875L;
 
     private double[] xValues;
     private double[] yValues;

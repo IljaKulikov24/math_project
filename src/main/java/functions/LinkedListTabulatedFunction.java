@@ -3,11 +3,16 @@ package functions;
 import exceptions.InterpolationException;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class LinkedListTabulatedFunction extends AbstractTabulatedFunction
-        implements Insertable, Removable {
+        implements Insertable, Removable, Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 2757719858146810667L;
 
     private int count;
     private Node head;
