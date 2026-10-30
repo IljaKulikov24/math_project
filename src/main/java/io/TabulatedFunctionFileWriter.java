@@ -21,8 +21,8 @@ public class TabulatedFunctionFileWriter {
             BufferedWriter arrayWriter = new BufferedWriter(new FileWriter("output/array function.txt"));
             BufferedWriter listWriter = new BufferedWriter(new FileWriter("output/linked list function.txt"));
         ) {
-            FunctionsIO.writeTabulatedFunctions(arrayWriter, arrayFunction);
-            FunctionsIO.writeTabulatedFunctions(listWriter, listFunction);
+            FunctionsIO.writeTabulatedFunction(arrayWriter, arrayFunction);
+            FunctionsIO.writeTabulatedFunction(listWriter, listFunction);
 
             System.out.println("Запись в файлы успешно произведена");
 

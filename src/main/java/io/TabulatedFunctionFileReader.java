@@ -15,8 +15,8 @@ public class TabulatedFunctionFileReader {
         try (BufferedReader readerOne = new BufferedReader(new FileReader("input/function.txt"));
              BufferedReader readerTwo = new BufferedReader(new FileReader("input/function.txt"));
         ) {
-            System.out.println(FunctionsIO.readTabulatedFunctions(readerOne, new ArrayTabulatedFunctionFactory()));
-            System.out.println(FunctionsIO.readTabulatedFunctions(readerTwo, new LinkedListTabulatedFunctionFactory()));
+            System.out.println(FunctionsIO.readTabulatedFunction(readerOne, new ArrayTabulatedFunctionFactory()));
+            System.out.println(FunctionsIO.readTabulatedFunction(readerTwo, new LinkedListTabulatedFunctionFactory()));
 
         } catch (IOException e) {
             e.printStackTrace();
