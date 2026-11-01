@@ -2,6 +2,7 @@ package io;
 
 import com.thoughtworks.xstream.XStream;
 import functions.ArrayTabulatedFunction;
+import functions.LinkedListTabulatedFunction;
 import functions.Point;
 import functions.TabulatedFunction;
 import functions.factory.TabulatedFunctionFactory;
@@ -100,6 +101,14 @@ public final class FunctionsIO {
 
     public static TabulatedFunction deserializeXml(BufferedReader reader) {
         XStream xStream = new XStream();
+
+        XStream.setupDefaultSecurity(xStream);
+
+        xStream.allowTypes(new Class[] {
+                ArrayTabulatedFunction.class,
+                LinkedListTabulatedFunction.class
+        });
+
         return (TabulatedFunction) xStream.fromXML(reader);
     }
 }
