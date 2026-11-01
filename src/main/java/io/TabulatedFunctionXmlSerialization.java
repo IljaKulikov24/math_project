@@ -31,5 +31,4 @@ public class TabulatedFunctionXmlSerialization {
             e.printStackTrace();
         }
     }
-
 }
