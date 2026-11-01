@@ -1,5 +1,7 @@
 package io;
 
+import com.thoughtworks.xstream.XStream;
+import functions.ArrayTabulatedFunction;
 import functions.Point;
 import functions.TabulatedFunction;
 import functions.factory.TabulatedFunctionFactory;
@@ -79,6 +81,7 @@ public final class FunctionsIO {
         return factory.create(xValues, yValues);
     }
 
+    // Обычная байтовая сериализация
     public static void serialize(BufferedOutputStream stream, TabulatedFunction function) throws IOException {
         new ObjectOutputStream(stream).writeObject(function);
         stream.flush();
@@ -86,5 +89,17 @@ public final class FunctionsIO {
 
     public static TabulatedFunction deserialize(BufferedInputStream stream) throws IOException, ClassNotFoundException {
         return (TabulatedFunction) new ObjectInputStream(stream).readObject();
+    }
+
+    // Xml-сериализация
+    public static void serializeXml(BufferedWriter writer, TabulatedFunction function) throws IOException {
+        XStream xStream = new XStream();
+        xStream.toXML(function, writer);
+        writer.flush();
+    }
+
+    public static TabulatedFunction deserializeXml(BufferedReader reader) {
+        XStream xStream = new XStream();
+        return (TabulatedFunction) xStream.fromXML(reader);
     }
 }
