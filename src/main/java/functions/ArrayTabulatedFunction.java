@@ -1,5 +1,6 @@
 package functions;
 
+import com.fasterxml.jackson.annotation.*;
 import exceptions.InterpolationException;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,11 +16,28 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction
     @Serial
     private static final long serialVersionUID = 8662227868331173875L;
 
+    @JsonIgnore
     private double[] xValues;
+
+    @JsonIgnore
     private double[] yValues;
+
     private int count;
 
-    public ArrayTabulatedFunction(double[] xValues, double[] yValues) {
+    @JsonGetter(value = "xValues")
+    private double[] getXValuesForJson() {
+        return Arrays.copyOf(xValues, count);
+    }
+
+    @JsonGetter(value = "yValues")
+    private double[] getYValuesForJson() {
+        return Arrays.copyOf(yValues, count);
+    }
+
+    @JsonCreator
+    public ArrayTabulatedFunction(
+            @JsonProperty(value = "xValues") double[] xValues,
+            @JsonProperty(value = "yValues") double[] yValues) {
 
         checkLengthIsTheSame(xValues, yValues);
         checkSorted(xValues);

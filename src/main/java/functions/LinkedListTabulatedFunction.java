@@ -1,5 +1,6 @@
 package functions;
 
+import com.fasterxml.jackson.annotation.*;
 import exceptions.InterpolationException;
 import org.jetbrains.annotations.NotNull;
 
@@ -14,8 +15,10 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction
     @Serial
     private static final long serialVersionUID = 2757719858146810667L;
 
-    private int count;
+    @JsonIgnore
     private Node head;
+
+    private int count;
 
     public static class Node implements Serializable {
         @Serial
@@ -46,10 +49,32 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction
         count++;
     }
 
-    public LinkedListTabulatedFunction(double[] xValues, double[] yValues) {
+    @JsonGetter(value = "xValues")
+    private double[] getXValuesForJson() {
+        double[] xValues = new double[count];
+        int index = 0;
+        for (Point point : this) {
+            xValues[index++] = point.getX();
+        }
+        return xValues;
+    }
+
+    @JsonGetter(value = "yValues")
+    private double[] getYValuesForJson() {
+        double[] yValues = new double[count];
+        int index = 0;
+        for (Point point : this) {
+            yValues[index++] = point.getY();
+        }
+        return yValues;
+    }
+
+    @JsonCreator
+    public LinkedListTabulatedFunction(
+            @JsonProperty(value = "xValues") double[] xValues,
+            @JsonProperty(value = "yValues") double[] yValues) {
 
         checkLengthIsTheSame(xValues, yValues);
-
         checkSorted(xValues);
 
         if (xValues.length < 2) {

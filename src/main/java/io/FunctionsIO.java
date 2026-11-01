@@ -1,5 +1,6 @@
 package io;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thoughtworks.xstream.XStream;
 import functions.ArrayTabulatedFunction;
 import functions.LinkedListTabulatedFunction;
@@ -82,7 +83,6 @@ public final class FunctionsIO {
         return factory.create(xValues, yValues);
     }
 
-    // Обычная байтовая сериализация
     public static void serialize(BufferedOutputStream stream, TabulatedFunction function) throws IOException {
         new ObjectOutputStream(stream).writeObject(function);
         stream.flush();
@@ -92,7 +92,6 @@ public final class FunctionsIO {
         return (TabulatedFunction) new ObjectInputStream(stream).readObject();
     }
 
-    // Xml-сериализация
     public static void serializeXml(BufferedWriter writer, TabulatedFunction function) throws IOException {
         XStream xStream = new XStream();
         xStream.toXML(function, writer);
@@ -110,5 +109,15 @@ public final class FunctionsIO {
         });
 
         return (TabulatedFunction) xStream.fromXML(reader);
+    }
+
+    public static void serializeJson(BufferedWriter writer, TabulatedFunction function) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        writer.write(objectMapper.writeValueAsString(function));
+    }
+
+    public static TabulatedFunction deserializeJson(BufferedReader reader) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.readerFor(TabulatedFunction.class).readValue(reader);
     }
 }
