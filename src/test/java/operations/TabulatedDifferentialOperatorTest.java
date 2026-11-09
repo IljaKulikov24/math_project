@@ -75,4 +75,33 @@ class TabulatedDifferentialOperatorTest {
 
         assertEquals(LinkedListTabulatedFunctionFactory.class, diffOperator.getFactory().getClass());
     }
+
+    @Test
+    void deriveSynchronously() {
+        TabulatedFunction function = new ArrayTabulatedFunction(new HyperFunction(), 1, 5, 5);
+        TabulatedFunction derivative = new TabulatedDifferentialOperator(new LinkedListTabulatedFunctionFactory())
+                .deriveSynchronously(function);
+
+        Iterator<Point> iteratorFunction = function.iterator(), iteratorDerivative = derivative.iterator();
+        while (iteratorFunction.hasNext() && iteratorDerivative.hasNext()) {
+            Point functionPoint = iteratorFunction.next(), derivativePoint = iteratorDerivative.next();
+
+            assertEquals(functionPoint.getX(), derivativePoint.getX());
+
+            double x = functionPoint.getX(), y = functionPoint.getY();
+            if (iteratorFunction.hasNext()) {
+                double xRight = x + 1, yRight = function.apply(xRight);
+                assertEquals((yRight - y) / (xRight - x), derivativePoint.getY());
+            } else {
+                double xLeft = x - 1, yLeft = function.apply(xLeft);
+                assertEquals((y - yLeft) / (x - xLeft), derivativePoint.getY());
+            }
+        }
+
+        // Проверка корректности работы с типами внутри deriveSynchronously
+        TabulatedFunction derivativeX2 = new TabulatedDifferentialOperator(new ArrayTabulatedFunctionFactory())
+                .deriveSynchronously(derivative);
+
+        assertEquals(5, derivativeX2.getCount());
+    }
 }
