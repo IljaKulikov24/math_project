@@ -4,6 +4,7 @@ import functions.CompositeFunction;
 import functions.MathFunction;
 import functions.Point;
 import functions.TabulatedFunction;
+import operations.TabulatedFunctionOperationService;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Iterator;
@@ -16,6 +17,16 @@ public class SynchronizedTabulatedFunction implements TabulatedFunction {
     public SynchronizedTabulatedFunction(TabulatedFunction function) {
         this.function = function;
         this.mutex = new Object();
+    }
+
+    public interface Operation<T> {
+        T apply(SynchronizedTabulatedFunction synchronizedTabulatedFunction);
+    }
+
+    public <T> T doSynchronously(Operation<? extends T> operation) {
+        synchronized (mutex) {
+            return operation.apply(this);
+        }
     }
 
     @Override
@@ -92,21 +103,22 @@ public class SynchronizedTabulatedFunction implements TabulatedFunction {
     @Override
     public Iterator<Point> iterator() {
         synchronized (mutex) {
-            Iterator<Point> iterator = function.iterator();
+            Point[] copyTabulatedFunction = TabulatedFunctionOperationService.asPoints(function);
 
             return new Iterator<Point>() {
+                int index = 0;
 
                 @Override
                 public boolean hasNext() {
                     synchronized (mutex) {
-                        return iterator.hasNext();
+                        return index < function.getCount();
                     }
                 }
 
                 @Override
                 public Point next() {
                     synchronized (mutex) {
-                        return iterator.next();
+                        return copyTabulatedFunction[index++];
                     }
                 }
             };
